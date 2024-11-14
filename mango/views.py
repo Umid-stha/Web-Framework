@@ -2,7 +2,6 @@ from api import API
 
 app=API()
 
-@app.route("/")
 def home(request, response):
     response.text = "welcome to the home page"
 
@@ -10,19 +9,19 @@ def home(request, response):
 # def home2(request, response):
 #     response.text = "welcome to the home page 2"
 
-@app.route("/about")
+# @app.route("/about")
 def about(request, response):
     response.text = "welcome to the about page"
 
-@app.route("/hello/{name}")
+# @app.route("/hello/{name}")
 def say_hello(request, response, name):
     response.text = f"hello, {name}"
 
-@app.route("/student/{id:d}")
+# @app.route("/student/{id:d}")
 def student(request, response, id):
     response.text = f"This students Roll no. is {id}"
 
-@app.route("/book")
+# @app.route("/book")
 class BooksResource:
     def get(self, req, resp):
         resp.text = "Books Page"

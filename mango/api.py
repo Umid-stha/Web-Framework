@@ -2,23 +2,31 @@ from webob import Request, Response
 from parse import parse
 import inspect
 
+ROUTES = {}
+
+def path(route, handler):
+        for existing_path, existing_handler in ROUTES.items():
+                if route == existing_path:
+                    raise AssertionError("Same path can't be repeated for diffrent functions")
+        ROUTES[route] = handler
+
 class API:
     def __init__(self):
-        self.routes = {}
+        self.routes = ROUTES
 
     def __call__(self, environ, start_response):
         request = Request(environ)
         response = self.handle_request(request)
         return response(environ, start_response)
 
-    def route(self, path):
-        def wrapper(handler):
-            for existing_path, existing_handler in self.routes.items():
-                if path == existing_path:
-                    raise AssertionError("Same path can't be repeated for diffrent functions")
-            self.routes[path] = handler
-            return handler
-        return wrapper
+    # def route(self, path):
+    #     def wrapper(handler):
+    #         for existing_path, existing_handler in self.routes.items():
+    #             if path == existing_path:
+    #                 raise AssertionError("Same path can't be repeated for diffrent functions")
+    #         self.routes[path] = handler
+    #         return handler
+    #     return wrapper
 
     def handle_request(self, request):
         response = Response()
